@@ -25,9 +25,6 @@ namespace backend_fullstack_test.Controllers
         public async Task<ActionResult<IEnumerable<TodoItem>>> GetTodoItems()
         {
             List<int> numbers = new List<int>() { 1, 2, 3 };
-            Console.WriteLine(nameof(numbers));  // output: numbers
-            Console.WriteLine(nameof(numbers.Count));  // output: Count
-            Console.WriteLine(nameof(numbers.Add));  // output: Add
             return await _context.TodoItems.ToListAsync();
         }
 
