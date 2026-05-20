@@ -24,6 +24,10 @@ namespace backend_fullstack_test.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TodoItem>>> GetTodoItems()
         {
+            List<int> numbers = new List<int>() { 1, 2, 3 };
+            Console.WriteLine(nameof(numbers));  // output: numbers
+            Console.WriteLine(nameof(numbers.Count));  // output: Count
+            Console.WriteLine(nameof(numbers.Add));  // output: Add
             return await _context.TodoItems.ToListAsync();
         }
 
@@ -80,7 +84,7 @@ namespace backend_fullstack_test.Controllers
             _context.TodoItems.Add(todoItem);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
+            return CreatedAtAction(nameof(GetTodoItem), new { id = todoItem.Id }, todoItem);
         }
 
         // DELETE: api/TodoItems/5
