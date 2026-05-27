@@ -1,30 +1,45 @@
 using Microsoft.EntityFrameworkCore;
 using TodoApi.Models;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace WarehouseSystemTest;
 
-builder.Services.AddControllers();
-builder.Services.AddOpenApi();
-builder.Services.AddDbContext<TodoContext>(opt =>
-    opt.UseInMemoryDatabase("TodoList"));
-
-// <snippet_UseSwagger>
-var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
+public class Program
 {
-    app.MapOpenApi();
-    app.UseSwaggerUi(options =>
+    public static void Main(string[] args)
     {
-        options.DocumentPath = "/openapi/v1.json";
-    });
+        var builder = WebApplication.CreateBuilder(args);
+
+        builder.Services.AddControllers();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddOpenApiDocument(options =>
+        {
+            options.Title = "Backend Fullstack Test API";
+            options.Version = "v1";
+        });
+
+        builder.Services.AddDbContext<TodoContext>(options =>
+        {
+            var connectionString = builder.Configuration["ConnectionString:todo"];
+
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                throw new InvalidOperationException("Missing database connection string: ConnectionString:todo");
+            }
+
+            options.UseSqlServer(connectionString);
+        });
+
+        var app = builder.Build();
+
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseOpenApi();
+            app.UseSwaggerUi();
+        }
+
+        app.UseHttpsRedirection();
+        app.MapControllers();
+
+        app.Run();
+    }
 }
-// </snippet_UseSwagger>
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();

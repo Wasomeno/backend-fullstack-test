@@ -1,0 +1,16 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    container_name: backend-fullstack-test-sqlserver
+    environment:
+      ACCEPT_EULA: "1"
+      MSSQL_SA_PASSWORD: "Administrat@r123"
+      MSSQL_PID: "Developer"
+      MSSQL_SA_USER: "SA"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+
+volumes:
+  sqlserver-data:
