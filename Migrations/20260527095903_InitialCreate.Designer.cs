@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TodoApi.Models;
+using WarehouseSystemTest.Infrastructure.Database;
 
 #nullable disable
 
 namespace backend_fullstack_test.Migrations
 {
-    [DbContext(typeof(TodoContext))]
+    [DbContext(typeof(DatabaseContext))]
     [Migration("20260527095903_InitialCreate")]
     partial class InitialCreate
     {
@@ -24,7 +24,7 @@ namespace backend_fullstack_test.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TodoApi.Models.TodoItem", b =>
+            modelBuilder.Entity("WarehouseSystemTest.Models.TodoItem", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
