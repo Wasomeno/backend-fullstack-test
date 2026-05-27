@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TodoApi.Models;
+using WarehouseSystemTest.Infrastructure.Database;
+using WarehouseSystemTest.Models;
 
 namespace backend_fullstack_test.Controllers
 {
@@ -13,9 +14,9 @@ namespace backend_fullstack_test.Controllers
     [ApiController]
     public class TodoItemsController : ControllerBase
     {
-        private readonly TodoContext _context;
+        private readonly DatabaseContext _context;
 
-        public TodoItemsController(TodoContext context)
+        public TodoItemsController(DatabaseContext context)
         {
             _context = context;
         }
