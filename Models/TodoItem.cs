@@ -1,4 +1,4 @@
-namespace TodoApi.Models;
+namespace WarehouseSystemTest.Models;
 
 public class TodoItem
 {
