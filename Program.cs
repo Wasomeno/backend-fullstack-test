@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using TodoApi.Models;
+using WarehouseSystemTest.Infrastructure.Database;
 
 namespace WarehouseSystemTest;
 
@@ -17,7 +17,7 @@ public class Program
             options.Version = "v1";
         });
 
-        builder.Services.AddDbContext<TodoContext>(options =>
+        builder.Services.AddDbContext<DatabaseContext>(options =>
         {
             var connectionString = builder.Configuration["ConnectionString:todo"];
 
