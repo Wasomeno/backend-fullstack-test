@@ -7,102 +7,40 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WarehouseSystemTest.Infrastructure.Database;
 using WarehouseSystemTest.Models;
+using WarehouseSystemTest.Infrastructure.Shared;
+using WarehouseSystemTest.Domain.Warehouse.Services;
+using WarehouseSystemTest.Domain.Warehouse.Dto;
+using System.Net;
 
-namespace backend_fullstack_test.Controllers
+namespace WarehouseSystemTest.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/warehouses")]
     [ApiController]
-    public class WarehousesController : ControllerBase
+    public class WarehouseController : ControllerBase
     {
-        private readonly DatabaseContext _context;
+        private readonly WarehouseService _warehouseService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public WarehousesController(DatabaseContext context)
+        public WarehouseController(WarehouseService warehouseService, IHttpContextAccessor httpContextAccessor)
         {
-            _context = context;
+            _warehouseService = warehouseService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        // GET: api/Warehouses
+        // GET: api/warehouses
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Warehouse>>> GetWarehouses()
+        public async Task<ApiResponse> Index()
         {
-            return await _context.Warehouses.ToListAsync();
+            var paginationResult = await _warehouseService.Index();
+            return new ApiResponsePagination<WarehouseResultDto>(HttpStatusCode.OK, paginationResult);
         }
 
-        // GET: api/Warehouses/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Warehouse>> GetWarehouse(long id)
-        {
-            var warehouse = await _context.Warehouses.FindAsync(id);
-
-            if (warehouse == null)
-            {
-                return NotFound();
-            }
-
-            return warehouse;
-        }
-
-        // PUT: api/Warehouses/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutWarehouse(long id, Warehouse warehouse)
-        {
-            if (id != warehouse.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(warehouse).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!WarehouseExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Warehouses
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Warehouse>> PostWarehouse(Warehouse warehouse)
+        public async Task<ApiResponse> Store(WarehouseCreateDto payload)
         {
-            _context.Warehouses.Add(warehouse);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetWarehouse", new { id = warehouse.Id }, warehouse);
-        }
-
-        // DELETE: api/Warehouses/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteWarehouse(long id)
-        {
-            var warehouse = await _context.Warehouses.FindAsync(id);
-            if (warehouse == null)
-            {
-                return NotFound();
-            }
-
-            _context.Warehouses.Remove(warehouse);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool WarehouseExists(long id)
-        {
-            return _context.Warehouses.Any(e => e.Id == id);
+            _ = Guid.TryParse(_httpContextAccessor.HttpContext!.User.FindFirst("id")?.Value, out Guid userId);
+            var data = await _warehouseService.Create(payload, userId);
+            return new ApiResponseData<WarehouseResultDto>(HttpStatusCode.Created, data);
         }
     }
 }
