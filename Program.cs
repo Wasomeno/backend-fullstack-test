@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WarehouseSystemTest.Infrastructure.Database;
+using WarehouseSystemTest.Domain.Warehouse.Repositories;
+using WarehouseSystemTest.Domain.Warehouse.Services;
 
 namespace WarehouseSystemTest;
 
@@ -11,6 +13,10 @@ public class Program
 
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddHttpContextAccessor();
+        builder.Services.AddScoped<WarehouseService>();
+        builder.Services.AddScoped<WarehouseQueryRepository>();
+        builder.Services.AddScoped<WarehouseStoreRepository>();
         builder.Services.AddOpenApiDocument(options =>
         {
             options.Title = "Backend Fullstack Test API";
