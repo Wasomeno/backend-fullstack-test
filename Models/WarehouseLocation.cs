@@ -10,4 +10,5 @@ public class WarehouseLocation
     public string Bin { get; set; } = string.Empty;
 
     public Warehouse? Warehouse { get; set; }
+    public ICollection<StockLevel> StockLevels { get; set; } = new List<StockLevel>();
 }
