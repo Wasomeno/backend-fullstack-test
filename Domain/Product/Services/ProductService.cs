@@ -25,12 +25,26 @@ namespace WarehouseSystemTest.Domain.Product.Services
             return PaginationModel<ProductResultDto>.Parse(formattedResult, result.Count, new QueryDto());
         }
 
+        public async Task<ProductResultDto?> Detail(Guid id)
+        {
+            var data = await _queryRepository.FindOneById(id);
+            if (data is null) return null;
+            return new ProductResultDto(data);
+        }
+
 
         public async Task<ProductResultDto> Create(ProductCreateDto payload, Guid userId)
         {
             var data = ProductCreateDto.ToModel(payload);
-            var cashIn = await _storeRepository.Create(data);
-            return new ProductResultDto(cashIn);
+            var newProduct = await _storeRepository.Create(data);
+            return new ProductResultDto(newProduct);
+        }
+
+        public async Task<ProductResultDto> Update(ProductCreateDto payload, Guid userId)
+        {
+            var data = ProductCreateDto.ToModel(payload);
+            var newProduct = await _storeRepository.Update(data);
+            return new ProductResultDto(newProduct);
         }
 
     }
