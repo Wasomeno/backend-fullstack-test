@@ -6,6 +6,8 @@ using WarehouseSystemTest.Domain.Product.Repositories;
 using WarehouseSystemTest.Domain.Product.Services;
 using WarehouseSystemTest.Domain.ProductCategory.Repositories;
 using WarehouseSystemTest.Domain.ProductCategory.Services;
+using WarehouseSystemTest.Domain.Supplier.Repositories;
+using WarehouseSystemTest.Domain.Supplier.Services;
 
 namespace WarehouseSystemTest;
 
@@ -30,6 +32,10 @@ public class Program
         builder.Services.AddScoped<ProductCategoryService>();
         builder.Services.AddScoped<ProductCategoryQueryRepository>();
         builder.Services.AddScoped<ProductCategoryStoreRepository>();
+
+        builder.Services.AddScoped<SupplierService>();
+        builder.Services.AddScoped<SupplierQueryRepository>();
+        builder.Services.AddScoped<SupplierStoreRepository>();
 
 
         builder.Services.AddOpenApiDocument(options =>
