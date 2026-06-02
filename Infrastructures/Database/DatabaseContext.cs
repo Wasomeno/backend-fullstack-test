@@ -40,6 +40,14 @@ namespace WarehouseSystemTest.Infrastructure.Database
                     .HasForeignKey(location => location.WarehouseId)
                     .OnDelete(DeleteBehavior.Restrict);
             });
+
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.HasOne(p => p.ProductCategory)
+                    .WithMany(c => c.Products)
+                    .HasForeignKey(p => p.ProductCategoryId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
         }
     }
 }
