@@ -8,5 +8,6 @@ public class Product
     public string SKU { get; set; } = string.Empty;
     public string Weight { get; set; } = string.Empty;
 
+    public Guid? ProductCategoryId { get; set; }
     public ProductCategory? ProductCategory { get; set; }
 }
