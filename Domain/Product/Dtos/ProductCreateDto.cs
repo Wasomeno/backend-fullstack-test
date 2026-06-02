@@ -7,6 +7,7 @@
         public string Unit { get; set; }
         public string SKU { get; set; }
         public string Weight { get; set; }
+        public Guid ProductCategoryId { get; set; }
 
         public static WarehouseSystemTest.Models.Product ToModel(ProductCreateDto data)
         {
@@ -15,7 +16,8 @@
                 Name = data.Name,
                 Unit = data.Unit,
                 SKU = data.SKU,
-                Weight = data.Weight
+                Weight = data.Weight,
+                ProductCategoryId = data.ProductCategoryId
             };
             return result;
         }
