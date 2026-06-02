@@ -14,6 +14,7 @@ namespace WarehouseSystemTest.Infrastructure.Database
         public DbSet<WarehouseLocation> WarehouseLocation { get; set; } = null!;
         public DbSet<Product> Product { get; set; } = null;
         public DbSet<ProductCategory> ProductCategory { get; set; } = null;
+        public DbSet<Supplier> Supplier { get; set; } = null;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
