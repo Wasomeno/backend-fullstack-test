@@ -47,6 +47,9 @@ namespace WarehouseSystemTest.Models
         [Required]
         public Guid ProductId { get; set; }
 
+        [Column("supplier_id")]
+        public Guid? SupplierId { get; set; }
+
         [Column("warehouse_location_from_id")]
         public Guid? WarehouseLocationFromId { get; set; }
 
@@ -66,5 +69,6 @@ namespace WarehouseSystemTest.Models
         public User? CreatedBy { get; set; }
 
         public Product? Product { get; set; }
+        public Supplier? Supplier { get; set; }
     }
 }

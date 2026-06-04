@@ -60,6 +60,11 @@ namespace WarehouseSystemTest.Infrastructure.Database
                     .HasForeignKey(stockMovement => stockMovement.ProductId)
                     .OnDelete(DeleteBehavior.Restrict);
 
+                entity.HasOne(stockMovement => stockMovement.Supplier)
+                    .WithMany()
+                    .HasForeignKey(stockMovement => stockMovement.SupplierId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
                 entity.HasOne(stockMovement => stockMovement.WarehouseLocationFrom)
                     .WithMany()
                     .HasForeignKey(stockMovement => stockMovement.WarehouseLocationFromId)
