@@ -8,6 +8,9 @@ using WarehouseSystemTest.Domain.ProductCategory.Repositories;
 using WarehouseSystemTest.Domain.ProductCategory.Services;
 using WarehouseSystemTest.Domain.Supplier.Repositories;
 using WarehouseSystemTest.Domain.Supplier.Services;
+using WarehouseSystemTest.Domain.Auth.Services;
+using WarehouseSystemTest.Domain.User.Repositories;
+using WarehouseSystemTest.Infrastructure.Middlewares;
 
 namespace WarehouseSystemTest;
 
@@ -37,6 +40,9 @@ public class Program
         builder.Services.AddScoped<SupplierQueryRepository>();
         builder.Services.AddScoped<SupplierStoreRepository>();
 
+        builder.Services.AddScoped<AuthService>();
+        builder.Services.AddScoped<UserQueryRepository>();
+        builder.Services.AddScoped<UserStoreRepository>();
 
         builder.Services.AddOpenApiDocument(options =>
         {
@@ -65,6 +71,8 @@ public class Program
         }
 
         app.UseHttpsRedirection();
+        app.UseRouting();
+        app.UseMiddleware<AuthorizationMiddleware>();
         app.MapControllers();
 
         app.Run();
