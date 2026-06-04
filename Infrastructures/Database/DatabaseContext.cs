@@ -15,6 +15,9 @@ namespace WarehouseSystemTest.Infrastructure.Database
         public DbSet<Product> Product { get; set; } = null;
         public DbSet<ProductCategory> ProductCategory { get; set; } = null;
         public DbSet<Supplier> Supplier { get; set; } = null;
+        public DbSet<User> User { get; set; } = null!;
+        public DbSet<StockMovement> StockMovement { get; set; } = null!;
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -47,6 +50,34 @@ namespace WarehouseSystemTest.Infrastructure.Database
                 entity.HasOne(p => p.ProductCategory)
                     .WithMany(c => c.Products)
                     .HasForeignKey(p => p.ProductCategoryId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<StockMovement>(entity =>
+            {
+                entity.HasOne(stockMovement => stockMovement.Product)
+                    .WithMany()
+                    .HasForeignKey(stockMovement => stockMovement.ProductId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(stockMovement => stockMovement.WarehouseLocationFrom)
+                    .WithMany()
+                    .HasForeignKey(stockMovement => stockMovement.WarehouseLocationFromId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(stockMovement => stockMovement.WarehouseLocationTo)
+                    .WithMany()
+                    .HasForeignKey(stockMovement => stockMovement.WarehouseLocationToId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(stockMovement => stockMovement.CreatedBy)
+                    .WithMany()
+                    .HasForeignKey(stockMovement => stockMovement.CreatedById)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(stockMovement => stockMovement.CompletedBy)
+                    .WithMany()
+                    .HasForeignKey(stockMovement => stockMovement.CompletedById)
                     .OnDelete(DeleteBehavior.Restrict);
             });
         }
